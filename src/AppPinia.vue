@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>IronContacts with PINIA STATE MANAGEMENT</h1>
+    <h1>IronContacts with Pinia</h1>
     <div class="actions">
       <button @click="addRandomContact">Add Random Contact</button>
       <button @click="sortByName">Sort by Name</button>
@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { useContactsStore } from './pinia/contacts.js';
+import { useContactsStore } from './stores/index.js';
 
 // Use the contacts store
 const contactsStore = useContactsStore();

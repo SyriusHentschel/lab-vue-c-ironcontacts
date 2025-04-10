@@ -8,8 +8,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      // Comment/uncomment the line below to switch between versions
-      './main.js': path.resolve(__dirname, './src/mainPinia.js')
+      // Comment/uncomment the line below to switch to Pinia version
+      // './main.js': path.resolve(__dirname, './src/mainPinia.js')
     }
   },
   define: {
