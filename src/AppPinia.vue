@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>IronContacts (Original Version)</h1>
+    <h1>IronContacts with PINIA STATE MANAGEMENT</h1>
     <div class="actions">
       <button @click="addRandomContact">Add Random Contact</button>
       <button @click="sortByName">Sort by Name</button>
@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="contact in contacts" :key="contact.id">
+        <tr v-for="contact in contactsStore.contacts" :key="contact.id">
           <td><img :src="contact.pictureUrl" :alt="contact.name" /></td>
           <td>{{ contact.name }}</td>
           <td>{{ contact.popularity.toFixed(2) }}</td>
@@ -32,47 +32,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import contactsData from './contacts.json';
+import { useContactsStore } from './pinia/contacts.js';
 
-// Create a ref with the first 5 contacts
-const contacts = ref(contactsData.slice(0, 5));
-const remainingContacts = ref(contactsData.slice(5));
+// Use the contacts store
+const contactsStore = useContactsStore();
+console.log('Using Pinia for state management!');
 
-// Function to add a random contact
-const addRandomContact = () => {
-  if (remainingContacts.value.length === 0) {
-    alert('No more contacts to add!');
-    return;
-  }
-  
-  // Get a random index
-  const randomIndex = Math.floor(Math.random() * remainingContacts.value.length);
-  
-  // Get the random contact
-  const randomContact = remainingContacts.value[randomIndex];
-  
-  // Add the contact to the contacts array
-  contacts.value.push(randomContact);
-  
-  // Remove the contact from the remaining contacts
-  remainingContacts.value.splice(randomIndex, 1);
-};
-
-// Function to sort contacts by name alphabetically
-const sortByName = () => {
-  contacts.value = [...contacts.value].sort((a, b) => a.name.localeCompare(b.name));
-};
-
-// Function to sort contacts by popularity (highest first)
-const sortByPopularity = () => {
-  contacts.value = [...contacts.value].sort((a, b) => b.popularity - a.popularity);
-};
-
-// Function to delete a contact
-const deleteContact = (id) => {
-  contacts.value = contacts.value.filter(contact => contact.id !== id);
-};
+// Alias store methods for template use
+const addRandomContact = () => contactsStore.addRandomContact();
+const sortByName = () => contactsStore.sortByName();
+const sortByPopularity = () => contactsStore.sortByPopularity();
+const deleteContact = (id) => contactsStore.deleteContact(id);
 </script>
 
 <style>
